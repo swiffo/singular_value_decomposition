@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand{\trans}{t}
+
+\title{Singular Value Decomposition}
+
+\begin{document}
+\maketitle
+Let $A \in \mathbb{R}^{m \times n}$.
+
+\begin{remark}
+If $x$ is an eigenvector of $A^\trans A$ with non-zero eigenvalue $\lambda$, then $Ax$ is an eigenvector of $AA^\trans$ with eigenvalue $\lambda$. That $(AA^\trans)(Ax) = \lambda Ax$ is obvious. That $Ax \neq 0$ follows from $\|Ax\|^2 = x^\trans A^\trans A x = \lambda x^\trans x$.
+
+If $x$ is an eigenvector of $A^\trans A$ with eigenvalue $0$, then $Ax = 0$.
+\end{remark}
+
+\begin{remark}
+Similarly if $y$ is an eigenvalue of $AA^\trans$ with non-zero eigenvalue $\lambda$ then $A^\trans y$ is an eigenvalue of $A^\trans A$ with eigenvalue $\lambda$. If $\lambda$ is zero then $A^\trans y = 0$.
+\end{remark}
+
+\begin{remark}
+It follows from the above that $A^\trans A$ and $AA^\trans$ have the same number of strictly positive eigenvalues. 
+\end{remark}
+
+\begin{lemma}
+Assume $A^\trans A$ has precisely $k$ strictly positive eigenvalues $\lambda_1, \ldots, \lambda_k$. Let $x_1, \ldots, x_k$, be corresponding mutually orthogonal unit eigenvectors for $A^\trans A$. Define unit vectors $y_i = Ax_i / \|Ax_i\| = Ax_i / \sqrt{\lambda_i}$.
+
+Define $\bar{V} \in \mathbb{R}^{n \times k}$ and $\bar{U} \in \mathbb{R}^{m \times k}$ be the matrices whose columns are $(x_i)$ and $(y_i)$, respectively. Let 
+$\bar{\Sigma} = \diag(\sqrt{\lambda_1}, \ldots, \sqrt{\lambda_k}) \in \mathbb{R}^{k \times k}$. Then
+\begin{equation}
+\bar{U}^\trans A \bar{V} = \bar{\Sigma} .
+\end{equation}
+\end{lemma}
+\begin{proof}
+Let $e_i \in \mathbb{R}^k$ be the $i$th standard basis vector. Then
+\begin{equation}
+\bar{U}^\trans A \bar{V} e_i = \bar{U}^\trans A x_i = \bar{U}^\trans \sqrt{\lambda_i} y_i = \sqrt{\lambda_i} e_i .
+\end{equation}
+\end{proof}
+
+\begin{lemma}
+Complete the columns of $\bar{U}$ and $\bar{V}$ to $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ by adding orthonormal vectors $x_i$ and $y_i$, $i > k$, with 
+$A^\trans A x_i = 0$ and $AA^\trans y_i = 0$, respectively. Extend $\bar{\Sigma}$ to $\Sigma \in \mathbb{R}^{n \times m}$ by adding zeroes. I.e., 
+\begin{equation}
+U = \begin{pmatrix} \bar{U} &  U_0 \end{pmatrix}, 
+V = \begin{pmatrix} \bar{V} & V_0 \end{pmatrix},
+\Sigma = \begin{pmatrix} \bar{\Sigma} & 0 \\ 0 & 0 \end{pmatrix} .
+\end{equation}
+Then
+\begin{equation}
+A = U \Sigma V^\trans .
+\end{equation}
+\end{lemma}
+\begin{proof}
+Note that $U$ and $V$ are orthogonal matrices. Also,
+\begin{equation}
+U^\trans A V = \begin{pmatrix} \bar{U}^\trans \\ U_0 \end{pmatrix} A \begin{pmatrix} \bar{V} & V_0 \end{pmatrix} =
+\begin{pmatrix} \bar{U}^\trans A \bar{V} & \bar{U}^\trans A V_0 \\  U_0^\trans A \bar{V} & U_0^\trans A V_0 \end{pmatrix} .
+\end{equation}
+By construction $A V_0 = 0$ and $U_0^\trans A = 0$. The lemma follows.
+\end{proof}
+
+Summing up:
+
+\begin{theorem}
+For any $A \in \mathbb{R}^{m \times n}$, there exists orthogonal matrices $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ and a diagonal matrix 
+$\Sigma \in \mathbb{R}^{m \times n}$ such that $A = U \Sigma V^\trans$. 
+
+The diagonal values of $\Sigma$ are the strictly positive eigenvalues of $A^\trans A$ (or equivalently $AA^\trans$) and zeroes.
+\end{theorem}
+
+\begin{remark}
+To remember the construction of $U$ note that
+\begin{equation}
+A^\trans A = V \Sigma U^\trans U \Sigma V = V^\trans \Sigma^\trans \Sigma V^t .
+\end{equation}
+Thus if $V$ is the matrix whose columns of eigenvectors of $A^\trans A$ and $\Sigma^\trans \Sigma$ is the diagonal matrix of eigenvalues, then the equation is satisfied. 
+
+A similar mnemonic holds made for $V$.
+\end{remark}
+\end{document}
